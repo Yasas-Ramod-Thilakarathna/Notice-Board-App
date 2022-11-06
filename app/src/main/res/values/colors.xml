@@ -8,14 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="colorPrimary">#292929</color>
+    <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#292929</color>
     <color name="colorAccent">#F14666</color>
     <color name="colorSearchIcon">#DBDBDB</color>
     <color name="colorTextHint">#7B7B7B</color>
     <color name="colorQuickActionsBackground">#2F2D2E</color>
     <color name="colorIcons">#A4A4A4</color>
-    <color name="colorTextSubtitle">#CECECE</color>
+    <color name="colorTextSubtitle">#303030</color>
     <color name="colorDefaultNoteColor">#333333</color>
     <color name="colorNoteSubtitleText">#FAFAFA</color>
     <color name="colorMiscellaneousBackground">#1F1F1F</color>
@@ -25,4 +25,6 @@
     <color name="colorNoteColor5">#000000</color>
     <color name="colorDelete">#FF4842</color>
     <color name="colorSearchBackground">#333333</color>
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorNoticeText">#4F4F4F</color>
 </resources>

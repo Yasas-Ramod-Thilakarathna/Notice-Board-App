@@ -17,7 +17,7 @@
         android:fontFamily="@font/ubuntu_bold"
         android:includeFontPadding="false"
         android:text="@string/all_notices"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/_20sdp"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -40,7 +40,7 @@
             android:layout_height="@dimen/_20sdp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_search"
-            app:tint="@color/colorSearchIcon"/>
+            app:tint="@color/colorIcons"/>
 
         <EditText
             android:id="@+id/inputSearch"
@@ -54,7 +54,7 @@
             android:importantForAutofill="no"
             android:includeFontPadding="false"
             android:inputType="text"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textColorHint="@color/colorTextHint"
             android:textSize="@dimen/_13ssp"/>
 
@@ -76,7 +76,7 @@
         android:id="@+id/layoutQuickActions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorDefaultNoteColor"
+        android:background="@color/colorTransparent"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/_15sdp"
