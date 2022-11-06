@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Notice Board App</string>
+    <string name="all_notices">All Notices</string>
+    <string name="search_notices">Search Notices</string>
 </resources>
