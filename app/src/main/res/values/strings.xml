@@ -2,4 +2,7 @@
     <string name="app_name">Notice Board App</string>
     <string name="all_notices">All Notices</string>
     <string name="search_notices">Search Notices</string>
+    <string name="notice_title">Notice Title</string>
+    <string name="notice_subtitle">Notice Subtitle</string>
+    <string name="type_notice_here">Type Notice Here</string>
 </resources>
