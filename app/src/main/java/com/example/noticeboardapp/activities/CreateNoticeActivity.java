@@ -1,10 +1,12 @@
-package com.example.noticeboardapp;
+package com.example.noticeboardapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.example.noticeboardapp.R;
 
 public class CreateNoticeActivity extends AppCompatActivity {
 

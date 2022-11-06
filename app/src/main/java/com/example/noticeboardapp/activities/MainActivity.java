@@ -1,4 +1,4 @@
-package com.example.noticeboardapp;
+package com.example.noticeboardapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.example.noticeboardapp.R;
+import com.example.noticeboardapp.activities.CreateNoticeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
