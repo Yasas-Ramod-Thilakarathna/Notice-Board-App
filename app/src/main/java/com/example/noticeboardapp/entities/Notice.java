@@ -22,8 +22,8 @@ public class Notice implements Serializable {
     @ColumnInfo(name = "subtitle")
     private String subtitle;
 
-    @ColumnInfo(name = "note_text")
-    private String noteText;
+    @ColumnInfo(name = "notice_text")
+    private String noticeText;
 
     @ColumnInfo(name = "color")
     private  String color;
@@ -63,12 +63,12 @@ public class Notice implements Serializable {
         this.subtitle = subtitle;
     }
 
-    public String getNoteText() {
-        return noteText;
+    public String getNoticeText() {
+        return noticeText;
     }
 
-    public void setNoteText(String noteText) {
-        this.noteText = noteText;
+    public void setNoticeText(String noteText) {
+        this.noticeText = noteText;
     }
 
     public String getColor() {
