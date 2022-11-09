@@ -5,4 +5,5 @@
     <string name="notice_title">Notice Title</string>
     <string name="notice_subtitle">Notice Subtitle</string>
     <string name="type_notice_here">Type Notice Here</string>
+    <string name="create_notice">Create Notice</string>
 </resources>
