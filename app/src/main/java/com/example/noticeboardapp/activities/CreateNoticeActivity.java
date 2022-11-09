@@ -41,6 +41,8 @@ public class CreateNoticeActivity extends AppCompatActivity {
 
     private AlertDialog dialogAddURL;
 
+    private Notice alreadyAvailableNotice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +79,25 @@ public class CreateNoticeActivity extends AppCompatActivity {
 
         selectedNoticeColor = "#333333";//Default notice color
 
+        if(getIntent().getBooleanExtra("isViewOrUpdate",false)){
+            alreadyAvailableNotice = (Notice) getIntent().getSerializableExtra("notice");
+            setViewOrUpdateNotice();
+        }
+
         initOptions();
         setSubtitleIndicatorColor();
+    }
+
+    private void setViewOrUpdateNotice() {
+        inputNoticeTitle.setText(alreadyAvailableNotice.getTitle());
+        inputNoticeSubtitle.setText(alreadyAvailableNotice.getSubtitle());
+        inputNoticeText.setText(alreadyAvailableNotice.getNoticeText());
+        textDateTime.setText(alreadyAvailableNotice.getDateTime());
+
+        if(alreadyAvailableNotice.getWebLink() != null && !alreadyAvailableNotice.getWebLink().trim().isEmpty()){
+            textWebURL.setText(alreadyAvailableNotice.getWebLink());
+            layoutWebURL.setVisibility(View.VISIBLE);
+        }
     }
 
     private  void saveNotice() {
@@ -102,11 +121,17 @@ public class CreateNoticeActivity extends AppCompatActivity {
       notice.setDateTime(textDateTime.getText().toString());
       notice.setColor(selectedNoticeColor);
 
-        //checked if "layoutWebYRL" is visible or not.
+        //checked if "layoutWebURL" is visible or not.
         // if its visible it means Web URL is added since we have made it visible only while adding Web URL from add URL dialog.
         if(layoutWebURL.getVisibility() == View.VISIBLE){
           notice.setWebLink(textWebURL.getText().toString());
       }
+
+        /*if id of new notice is already available in the  database
+        then it will be replaced with new notice and notice get updated*/
+        if(alreadyAvailableNotice != null){
+            notice.setId(alreadyAvailableNotice.getId());
+        }
 
       @SuppressLint("StaticFieldLeak")
       class SaveNoticeTask extends AsyncTask<Void,Void, Void>{
@@ -213,6 +238,23 @@ public class CreateNoticeActivity extends AppCompatActivity {
                 setSubtitleIndicatorColor();
             }
         });
+
+        if(alreadyAvailableNotice != null && alreadyAvailableNotice.getColor() != null && !alreadyAvailableNotice.getColor().trim().isEmpty()){
+            switch (alreadyAvailableNotice.getColor()){
+                case "#FdBE3B":
+                    layoutOptions.findViewById(R.id.viewColor2).performClick();
+                    break;
+                case "#FF4842":
+                    layoutOptions.findViewById(R.id.viewColor3).performClick();
+                    break;
+                case "#3A52Fc":
+                    layoutOptions.findViewById(R.id.viewColor4).performClick();
+                    break;
+                case "#000000":
+                    layoutOptions.findViewById(R.id.viewColor5).performClick();
+                    break;
+            }
+        }
 
         layoutOptions.findViewById(R.id.layoutAddUrl).setOnClickListener(new View.OnClickListener() {
             @Override

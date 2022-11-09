@@ -13,15 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.noticeboardapp.R;
 import com.example.noticeboardapp.entities.Notice;
+import com.example.noticeboardapp.listeners.NoticeListener;
 
 import java.util.List;
 
 public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeViewHolder>{
 
     private List<Notice> notices;
+    private NoticeListener noticeListener;
 
-    public NoticeAdapter(List<Notice> notices) {
+    public NoticeAdapter(List<Notice> notices, NoticeListener noticeListener) {
         this.notices = notices;
+        this.noticeListener = noticeListener;
     }
 
     @NonNull
@@ -39,6 +42,12 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
     @Override
     public void onBindViewHolder(@NonNull NoticeViewHolder holder, int position) {
         holder.setNotice(notices.get(position));
+        holder.layoutNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noticeListener.onNoticeClicked(notices.get(position),position);
+            }
+        });
     }
 
     @Override
