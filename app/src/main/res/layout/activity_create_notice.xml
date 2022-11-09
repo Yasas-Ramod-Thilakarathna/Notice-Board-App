@@ -32,7 +32,8 @@
                 android:textSize="@dimen/_15sdp"
                 app:layout_constraintEnd_toStartOf="@+id/imageSave"
                 app:layout_constraintStart_toEndOf="@+id/imageBack"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"/>
 
             <ImageView
                 android:id="@+id/imageBack"
@@ -148,5 +149,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <include layout="@layout/layout_options"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

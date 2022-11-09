@@ -6,4 +6,7 @@
     <string name="notice_subtitle">Notice Subtitle</string>
     <string name="type_notice_here">Type Notice Here</string>
     <string name="create_notice">Create Notice</string>
+    <string name="options">Options</string>
+    <string name="pick_color">Pick Color</string>
+    <string name="add_url">Add URL</string>
 </resources>
