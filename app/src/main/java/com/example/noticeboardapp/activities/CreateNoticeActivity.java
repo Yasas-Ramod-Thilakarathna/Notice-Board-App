@@ -1,14 +1,19 @@
 package com.example.noticeboardapp.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,8 +34,12 @@ public class CreateNoticeActivity extends AppCompatActivity {
     private EditText inputNoticeTitle, inputNoticeSubtitle, inputNoticeText;
     private TextView textDateTime;
     private View viewSubtitleIndicator;
+    private TextView textWebURL;
+    private LinearLayout layoutWebURL;
 
     private String selectedNoticeColor;
+
+    private AlertDialog dialogAddURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,8 @@ public class CreateNoticeActivity extends AppCompatActivity {
         inputNoticeText = findViewById(R.id.inputNotice);
         textDateTime = findViewById(R.id.textDateTime);
         viewSubtitleIndicator = findViewById(R.id.viewSubtitleIndicator);
+        textWebURL = findViewById(R.id.textWebURL);
+        layoutWebURL = findViewById(R.id.layoutWebURL);
 
         textDateTime.setText(
                 new SimpleDateFormat ("EEEE,dd MMMM yyyy HH:mm a", Locale.getDefault()) //Pattern=Saturday,13 June 2020 21:09PM
@@ -90,6 +101,12 @@ public class CreateNoticeActivity extends AppCompatActivity {
       notice.setNoticeText(inputNoticeText.getText().toString());
       notice.setDateTime(textDateTime.getText().toString());
       notice.setColor(selectedNoticeColor);
+
+        //checked if "layoutWebYRL" is visible or not.
+        // if its visible it means Web URL is added since we have made it visible only while adding Web URL from add URL dialog.
+        if(layoutWebURL.getVisibility() == View.VISIBLE){
+          notice.setWebLink(textWebURL.getText().toString());
+      }
 
       @SuppressLint("StaticFieldLeak")
       class SaveNoticeTask extends AsyncTask<Void,Void, Void>{
@@ -196,6 +213,14 @@ public class CreateNoticeActivity extends AppCompatActivity {
                 setSubtitleIndicatorColor();
             }
         });
+
+        layoutOptions.findViewById(R.id.layoutAddUrl).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                showAddURLDialog();
+            }
+        });
     }
 
     private void setSubtitleIndicatorColor() {
@@ -203,4 +228,44 @@ public class CreateNoticeActivity extends AppCompatActivity {
         gradientDrawable.setColor(Color.parseColor(selectedNoticeColor));
     }
 
+    private void showAddURLDialog() {
+        if(dialogAddURL == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoticeActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_add_url,
+                    (ViewGroup) findViewById(R.id.layoutAddUrlContainer)
+            );
+            builder.setView(view);
+
+            dialogAddURL = builder.create();
+            if(dialogAddURL.getWindow() != null){
+                dialogAddURL.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            final EditText inputURL = view.findViewById(R.id.inputURL);
+            inputURL.requestFocus();
+
+            view.findViewById(R.id.textAdd).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(inputURL.getText().toString().trim().isEmpty()){
+                        Toast.makeText(CreateNoticeActivity.this, "Enter URL", Toast.LENGTH_SHORT).show();
+                    } else if(!Patterns.WEB_URL.matcher(inputURL.getText().toString()).matches()){
+                        Toast.makeText(CreateNoticeActivity.this, "Enter valid URL", Toast.LENGTH_SHORT).show();
+                    } else {
+                        textWebURL.setText(inputURL.getText().toString());
+                        layoutWebURL.setVisibility(View.VISIBLE);
+                        dialogAddURL.dismiss();
+                    }
+                }
+            });
+
+            view.findViewById(R.id.textCancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogAddURL.dismiss();
+                }
+            });
+        }
+        dialogAddURL.show();
+    }
 }
