@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NoticeListener {
         noticeAdapter = new NoticeAdapter(noticeList, this);
         noticeRecyclerView.setAdapter(noticeAdapter);
 
-        getNotices(REQUEST_CODE_SHOW_NOTES);
+        getNotices(REQUEST_CODE_SHOW_NOTES,false);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NoticeListener {
         startActivityForResult(intent,REQUEST_CODE_UPDATE_NOTE);
     }
 
-    private void getNotices(final int requestCode) {
+    private void getNotices(final int requestCode, final boolean isNoteDeleted) {
 
         //Just as need an async task to save a notice,you will also need it to get notices from the database
         @SuppressLint("StaticFieldLeak")
@@ -101,8 +101,13 @@ public class MainActivity extends AppCompatActivity implements NoticeListener {
                     noticeRecyclerView.smoothScrollToPosition(0);//adding only newly added notice from the DB to noticeList.Scrolling recycler view to the top.
                 }else if (requestCode ==  REQUEST_CODE_UPDATE_NOTE){
                     noticeList.remove(noticeClickedPosition);
-                    noticeList.add(noticeClickedPosition, notices.get(noticeClickedPosition));
-                    noticeAdapter.notifyItemChanged(noticeClickedPosition);//remove notice from the clicked position and adding latest notice from same position from DB.
+
+                    if(isNoteDeleted){
+                        noticeAdapter.notifyItemRemoved(noticeClickedPosition);
+                    }else {
+                        noticeList.add(noticeClickedPosition, notices.get(noticeClickedPosition));
+                        noticeAdapter.notifyItemChanged(noticeClickedPosition);//remove notice from the clicked position and adding latest notice from same position from DB.
+                    }
                 }
 
             }
@@ -114,10 +119,12 @@ public class MainActivity extends AppCompatActivity implements NoticeListener {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
-            getNotices(REQUEST_CODE_ADD_NOTE);
+            getNotices(REQUEST_CODE_ADD_NOTE,false);
         } else if(requestCode ==REQUEST_CODE_UPDATE_NOTE && resultCode == RESULT_OK){
             if(data != null) {
-                getNotices(REQUEST_CODE_UPDATE_NOTE);
+                getNotices(REQUEST_CODE_UPDATE_NOTE, data.getBooleanExtra("isNoticeDeleted",false));
+            } else {
+
             }
         }
     }

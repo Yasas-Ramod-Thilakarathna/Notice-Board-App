@@ -40,6 +40,7 @@ public class CreateNoticeActivity extends AppCompatActivity {
     private String selectedNoticeColor;
 
     private AlertDialog dialogAddURL;
+    private AlertDialog dialogDeleteNotice;
 
     private Notice alreadyAvailableNotice;
 
@@ -83,6 +84,14 @@ public class CreateNoticeActivity extends AppCompatActivity {
             alreadyAvailableNotice = (Notice) getIntent().getSerializableExtra("notice");
             setViewOrUpdateNotice();
         }
+
+        findViewById(R.id.imageRemoveWebURL).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textWebURL.setText(null);
+                layoutWebURL.setVisibility(View.GONE);
+            }
+        });
 
         initOptions();
         setSubtitleIndicatorColor();
@@ -229,7 +238,7 @@ public class CreateNoticeActivity extends AppCompatActivity {
         layoutOptions.findViewById(R.id.viewColor5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectedNoticeColor = "#000000";
+                selectedNoticeColor = "#3DDD43";
                 imageColor1.setImageResource(0);
                 imageColor2.setImageResource(0);
                 imageColor3.setImageResource(0);
@@ -250,7 +259,7 @@ public class CreateNoticeActivity extends AppCompatActivity {
                 case "#3A52Fc":
                     layoutOptions.findViewById(R.id.viewColor4).performClick();
                     break;
-                case "#000000":
+                case "#3DDD43":
                     layoutOptions.findViewById(R.id.viewColor5).performClick();
                     break;
             }
@@ -263,6 +272,71 @@ public class CreateNoticeActivity extends AppCompatActivity {
                 showAddURLDialog();
             }
         });
+
+        //DELETE NOTICE
+        if(alreadyAvailableNotice != null){
+            layoutOptions.findViewById(R.id.layoutDeleteNotice).setVisibility(View.VISIBLE);
+            layoutOptions.findViewById(R.id.layoutDeleteNotice).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    showDeleteNoticeDialog();
+                }
+            });
+        }
+    }
+
+    private void showDeleteNoticeDialog(){
+
+        if(dialogDeleteNotice == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoticeActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_delete_notice,
+                    (ViewGroup) findViewById(R.id.layoutDeleteNoticeContainer)
+            );
+            builder.setView(view);
+            dialogDeleteNotice = builder.create();
+            if(dialogDeleteNotice.getWindow() != null){
+                dialogDeleteNotice.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            view.findViewById(R.id.textDeleteNotice).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    @SuppressLint("StaticFieldLeak")
+                    class DeleteNoticeTask extends AsyncTask<Void, Void, Void>{
+
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            NoticeDatabase.getDatabase(getApplicationContext()).noticeDao()
+                                    .deleteNotice(alreadyAvailableNotice);
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            Intent intent = new Intent();
+                            intent.putExtra("isNoticeDeleted", true);
+                            setResult(RESULT_OK,intent);
+                            finish();
+
+                        }
+                    }
+
+                    new DeleteNoticeTask().execute();
+                }
+            });
+
+            view.findViewById(R.id.textCancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogDeleteNotice.dismiss();
+                }
+            });
+        }
+
+        dialogDeleteNotice.show();
     }
 
     private void setSubtitleIndicatorColor() {

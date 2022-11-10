@@ -27,7 +27,7 @@
                 android:fontFamily="@font/ubuntu_medium"
                 android:foregroundGravity="center_horizontal"
                 android:includeFontPadding="false"
-                android:text="@string/create_notice"
+                android:text="@string/notices"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_15sdp"
                 app:layout_constraintEnd_toStartOf="@+id/imageSave"
@@ -145,9 +145,15 @@
                     android:autoLink="web"
                     android:fontFamily="@font/ubuntu_regular"
                     android:includeFontPadding="false"
-                    android:textSize="@dimen/_13ssp">
+                    android:textSize="@dimen/_13ssp"/>
 
-                </TextView>
+              <ImageView
+                  android:id="@+id/imageRemoveWebURL"
+                  android:layout_width="@dimen/_20sdp"
+                  android:layout_height="@dimen/_20sdp"
+                  android:contentDescription="@string/app_name"
+                  android:src="@drawable/ic_delete"
+                  app:tint="@color/colorDelete" />
 
             </LinearLayout>
             <EditText

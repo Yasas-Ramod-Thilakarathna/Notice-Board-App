@@ -12,4 +12,7 @@
     <string name="enter_url">Enter URL</string>
     <string name="add">ADD</string>
     <string name="cancel_dialog">CANCEL</string>
+    <string name="notices">Notices</string>
+    <string name="delete_notice">Delete Notice</string>
+    <string name="delete_notice_uppercase">DELETE NOTICE</string>
 </resources>
